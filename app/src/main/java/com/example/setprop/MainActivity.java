@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -66,10 +67,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     extstring += SystemPropertiesProxy.get(String.format("hw.gps.ext%d", i)) + ",";
                     i++;
                     if (i > 20) {
+                        EXT.setText(getString(R.string.extensions) + "Unknown");
                         break;
                     }
                 }
-                EXT.setText(getString(R.string.extensions) + extstring);
+                if(extstring.isEmpty()){
+                    EXT.setText(getString(R.string.extensions) + "Unknown");
+                } else {
+                    EXT.setText(getString(R.string.extensions) + extstring);
+                }
 
                 break;
 
@@ -78,6 +84,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     lock_update = true;
 
                     SystemPropertiesProxy.set("hw.gps.update", "start");
+                    //Check if we have SSELinux permissions by simply reading
+                    if (!SystemPropertiesProxy.get("hw.gps.update").equals("start") &&
+                            !SystemPropertiesProxy.get("hw.gps.update").equals("in progress")){
+                        Toast.makeText(this, getText(R.string.no_permission_msg), Toast.LENGTH_LONG).show();
+                        Status.setText( String.format("%s %s", getText(R.string.update_status), getText(R.string.no_permission_msg)));
+                        lock_update = false;
+                        break;
+                    }
+
 
                     new Thread(new Runnable() {
                         public void run() {
@@ -87,7 +102,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                             while (!result.equals("Complete") && !result.equals("Fail")) {
                                 result = SystemPropertiesProxy.get("hw.gps.update", "Unknown");
-                                //Status.setText(result);
                                 Status.post(new Runnable() {
                                     @Override
                                     public void run() {

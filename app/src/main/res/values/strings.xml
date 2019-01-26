@@ -1,9 +1,10 @@
 <resources>
-    <string name="app_name">SetProp</string>
+    <string name="app_name">L1 GPS FW Utility</string>
     <string name="fw_ver">GPS FW version:   </string>
     <string name="hw_ver">GPS HW version:   </string>
     <string name="extensions">GPS Extensions:   </string>
     <string name="update_info_btn">Update info</string>
     <string name="update_fw_btn">Update FW</string>
     <string name="update_status">Status:   </string>
+    <string name="no_permission_msg">App has no SELinux permissions to write a system property</string>
 </resources>
