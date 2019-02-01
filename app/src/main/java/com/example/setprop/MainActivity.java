@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     SystemPropertiesProxy.set("hw.gps.update", "start");
                     //Check if we have SSELinux permissions by simply reading
                     if (!SystemPropertiesProxy.get("hw.gps.update").equals("start") &&
-                            !SystemPropertiesProxy.get("hw.gps.update").equals("in progress")){
+                            !SystemPropertiesProxy.get("hw.gps.update").equals("in_progress")){
                         Toast.makeText(this, getText(R.string.no_permission_msg), Toast.LENGTH_LONG).show();
                         Status.setText( String.format("%s %s", getText(R.string.update_status), getText(R.string.no_permission_msg)));
                         lock_update = false;
